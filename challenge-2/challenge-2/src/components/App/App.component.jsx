@@ -1,16 +1,21 @@
 import React, {useReducer, createContext} from 'react'
-import NavBar from  "./components/Navbar"
-import NotesComponent from "./Pages/Notes"
-import ArchiveComponent from "./Pages/Archive"
+import NavBar from "../Navbar"
+import NotesComponent from "../../Pages/Notes"
+import ArchiveComponent from "../../Pages/Archive"
+import LoginComponent from "../../Pages/Login";
+import LogoutComponent from "../../Pages/Logout"
+import {StyledApp} from './styles'
+
 import {
     BrowserRouter,
     Switch,
     Route,
-    Link
+    Link, useHistory
 } from "react-router-dom";
+import SideMenuComponent from "../SideMenu";
 
 export function reducer(state, action) {
-    switch(action.type){
+    switch (action.type) {
         case 'CREATE_NOTE': {
             const currentStorage = JSON.parse(window.sessionStorage.getItem("notes")) || []
             window.sessionStorage.setItem("notes", JSON.stringify(currentStorage.concat(action.value)))
@@ -68,9 +73,28 @@ export function reducer(state, action) {
             }
         }
         case 'FIND_NOTES': {
+            console.log("FIND NOTES", {action})
             return {
                 ...state,
                 searchParameter: action.value
+            }
+        }
+        case 'LOGIN': {
+            window.sessionStorage.setItem("isLoggedIn", "true")
+            window.sessionStorage.setItem("userData", JSON.stringify(action.value))
+            return {
+                ...state,
+                isLoggedIn: true,
+                userData: action.value
+            }
+        }
+        case "LOGOUT": {
+            window.sessionStorage.removeItem("isLoggedIn")
+            window.sessionStorage.removeItem("userData")
+            return {
+                ...state,
+                isLoggedIn: false,
+                userData: {}
             }
         }
         case 'ADD_FAVORITES': {
@@ -93,57 +117,47 @@ export function reducer(state, action) {
     return state
 }
 
-
-const initialState = {
+export const initialState = {
     notes: JSON.parse(window.sessionStorage.getItem("notes")) || [],
     archivedNotes: JSON.parse(window.sessionStorage.getItem("archivedNotes")) || [],
     searchParameter: "",
-    loggedIn: true,
-    userId: 123
+    isLoggedIn: !!window.sessionStorage.getItem("isLoggedIn"),
+    userData: JSON.parse(window.sessionStorage.getItem("userData")) || {},
 }
 
 export const StateContext = createContext()
 export const DispatchContext = createContext()
 
-
-function App() {
+function AppComponent() {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     return (
-        <DispatchContext.Provider value={dispatch}>
-            <StateContext.Provider value={state}>
-                <BrowserRouter>
-                    <div>
-                        <nav>
-                            <ul>
-                                <li>
-                                    <Link to={"/"}>NOTES</Link>
-                                </li>
-                                <li>
-                                    <Link to={"/archived"}>ARCHIVED</Link>
-                                </li>
-                                <li>
-                                    <Link to={"/login"}>LOGIN</Link>
-                                </li>
-                                <li>
-                                    <Link to={"/logout"}>LOGOUT</Link>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <Switch>
-                        <Route path={"/archived"}>
-                            <ArchiveComponent/>
-                        </Route>
-                        <Route path={"/"}>
-                            <NavBar/>
-                            <NotesComponent/>
-                        </Route>
-                    </Switch>
-                </BrowserRouter>
-            </StateContext.Provider>
-        </DispatchContext.Provider>
-      );
+        <BrowserRouter>
+            <DispatchContext.Provider value={dispatch}>
+                <StateContext.Provider value={state}>
+                    <StyledApp>
+                        {state.isLoggedIn && <SideMenuComponent/>}
+                        <Switch>
+                            <Route path={"/archived"}>
+                                <ArchiveComponent/>
+                            </Route>
+                            <Route path={"/login"}>
+                                <LoginComponent/>
+                            </Route>
+                            <Route path={"/logout"}>
+                                <LogoutComponent/>
+                            </Route>
+                            <Route path={"/"}>
+                                <NavBar/>
+                                <NotesComponent/>
+                            </Route>
+
+                        </Switch>
+                    </StyledApp>
+                </StateContext.Provider>
+            </DispatchContext.Provider>
+        </BrowserRouter>
+    );
 }
 
-export default App;
+export default AppComponent;

@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react'
 
-import {DispatchContext} from "../../App";
+import {DispatchContext} from "../App/App.component";
+import {NoteContainer, NoteTitle, NoteText, ButtonContainer, ColorPicker, CreateButton} from "./styles";
 
 const NoteComponent = (props) => {
 
@@ -41,15 +42,15 @@ const NoteComponent = (props) => {
     }
 
     return (
-        <div>
-            <h2>Note</h2>
-            <input value={color} onChange={({target}) => setColor(target.value)} type="color" disabled={props.isArchived}/>
-            <input type={"text"} value={title} onChange={({target}) => setTitle(target.value)} placeholder={"Title"} disabled={props.isArchived}/>
-            <textarea value={content}  onChange={({target}) => setContent(target.value)} placeholder={"Start Typing..."} disabled={props.isArchived}/>
-            <button onClick={() => {moveNote()}}>{props.isArchived ? "Restore" : "Archive"} Note</button>
-            {!props.isArchived && <button onClick={() => {editNote()}}>Edit Note</button>}
-            <p>{color}</p>
-        </div>
+        <NoteContainer color={color} role={"note"}>
+            <NoteTitle type={"text"} value={title} onChange={({target}) => setTitle(target.value)} placeholder={"Title"} disabled={props.isArchived}/>
+            <NoteText value={content}  onChange={({target}) => setContent(target.value)} placeholder={"Start Typing..."} disabled={props.isArchived}/>
+            <ButtonContainer>
+                <ColorPicker role={"colorpicker"} value={color} onChange={({target}) => setColor(target.value)} type="color" disabled={props.isArchived}/>
+                <CreateButton onClick={() => {moveNote()}}>{props.isArchived ? "Restore" : "Archive"} Note</CreateButton>
+                {!props.isArchived && <CreateButton onClick={() => {editNote()}}>Edit Note</CreateButton>}
+            </ButtonContainer>
+        </NoteContainer>
     )
 }
 

@@ -1,13 +1,12 @@
 import React from 'react'
 import Note from '../Note'
+import {NotesGrid, ErrorMessage} from "./styles";
 
 const NoteGrid = (props) => {
 
     return (
-        <div>
-            <h2>Note Grid</h2>
-            { props.notes &&
-            props.notes.length > 0 &&
+        <NotesGrid role={"noteslist"}>
+            { (props.notes && props.notes.length > 0) ?
             props.notes.map((note) => (
                 <Note key={note.id}
                       id={note.id}
@@ -15,8 +14,11 @@ const NoteGrid = (props) => {
                       content={note.content}
                       color={note.color}
                       isArchived={note.isArchived}/>
-            ))}
-        </div>
+            ))
+            :
+                <ErrorMessage>{props.errorMessage}</ErrorMessage>
+            }
+        </NotesGrid>
     )
 }
 

@@ -1,16 +1,23 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import NoteGrid from "../../components/NoteGrid";
-import {StateContext} from "../../App";
-
+import {StateContext} from "../../components/App/App.component";
+import {useHistory} from "react-router-dom";
+import {Title} from './styles'
 
 const ArchiveComponent = (props) => {
+    const {archivedNotes, isLoggedIn} = useContext(StateContext)
+    const history = useHistory();
 
-    const {archivedNotes} = useContext(StateContext)
-    console.log(archivedNotes)
+    useEffect(() => {
+        if(!isLoggedIn){
+            history.push('/login')
+        }
+    }, [])
+
     return (
         <div>
-            <h2>Archived Content</h2>
-            <NoteGrid notes={archivedNotes}/>
+            <Title>Archived Content</Title>
+            <NoteGrid notes={archivedNotes} errorMessage={"No notes have been archived"}/>
         </div>
     )
 }

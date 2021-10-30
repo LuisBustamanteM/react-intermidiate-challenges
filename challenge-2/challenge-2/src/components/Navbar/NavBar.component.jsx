@@ -1,5 +1,6 @@
 import React, {useEffect, useContext, useState} from 'react'
-import {StateContext, DispatchContext} from "../../App";
+import {DispatchContext} from "../App/App.component";
+import {SearchBar, SearchBarContainer} from "./style";
 
 const NavBarComponent = () => {
     const [text, setText] = useState("")
@@ -10,9 +11,9 @@ const NavBarComponent = () => {
     }, [text])
 
     return(
-        <div>
-            <input type={"text"} aria-label={"Search by text"} placeholder={"Search by text"}  value={text} onChange={({target}) => setText(target.value)} />
-        </div>
+        <SearchBarContainer>
+            <SearchBar type={"text"} aria-label={"Search by text..."} placeholder={"Search by text"}  value={text} onChange={({target}) => setText(target.value)} />
+        </SearchBarContainer>
     )
 }
 
