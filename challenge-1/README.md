@@ -1,6 +1,6 @@
 # React Intermediate Challenge 2 - Styles, Fetching API, Testing.
 
-For this challenge you will create an awesome React App which fetch the "Picture of the day" from the NASA open API `APOD`.
+For this challenge you will create an awesome React AppComponent which fetch the "Picture of the day" from the NASA open API `APOD`.
 
 ## Instructions
 
@@ -15,7 +15,7 @@ We recommend you to consider the next elements that should contain the app, this
 Please read the following requisites in order to complete this challenge.
 
 - Create a new branch with name `challenge-2` from this repository.
-- Use Create React App.
+- Use Create React AppComponent.
 - Complete all the Acceptance Criterias.
 - Don't use UI Libraries. You have to build your own styles. Styled components, SASS, LESS, CSS, etc are allowed, you are free to use the approach that makes sense to you.
 - You have to fetch API Calls from the NASA `APOD` using your API KEY.

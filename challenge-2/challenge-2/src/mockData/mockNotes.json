@@ -1,0 +1,22 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "color": "#2f2f2f",
+      "title": "Some Title",
+      "content": "Some Content"
+    },
+    {
+      "id": 2,
+      "color": "#2f2f2f",
+      "title": "Some Title 2",
+      "content": "Some Content 222"
+    },
+    {
+      "id": 3,
+      "color": "#2f2f2f",
+      "title": "Some Title 3",
+      "content": "Some Content 33"
+    }
+  ]
+}
